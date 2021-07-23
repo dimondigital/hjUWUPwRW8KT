@@ -5,7 +5,7 @@ export interface VehicleFlat {
   contragent?: string;
   code1c: string;
   aggregate?: string;
-  drivers?: Employee[];
+  drivers?: string;
 }
 
 export interface VehicleCode {

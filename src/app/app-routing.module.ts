@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'vehicle-registry',
-    component: VehicleRegistryComponent
+    component: VehicleRegistryComponent,
   }
 ];
 

@@ -12,7 +12,7 @@ import {Subject} from "rxjs";
   styleUrls: ['./vehicle-registry.component.scss']
 })
 export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  displayedColumns: string[] = ['vehicle', 'org', 'department', 'contagent', 'code1c', 'aggregate', 'drivers'];
+  displayedColumns: string[] = ['vehicle', 'org', 'department', 'contragent', 'code1c', 'aggregate', 'drivers'];
   dataSource: MatTableDataSource<VehicleFlat>;
   // dataSource_filtered: MatTableDataSource<VehicleFlat>;
   flatVehicleData: VehicleFlat[] = [];
@@ -29,12 +29,9 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
   constructor(private vehicleService: VehicleService) { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.vehicleService.getVehicles()
@@ -47,7 +44,7 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
             contragent: item.Vehicle.Contragent?.name,
             code1c: item.code1c,
             aggregate: item.Aggregate?.name,
-            drivers: item.Drivers
+            drivers: item.Drivers.map(d => d.name).join(' ')
           };
           this.flatVehicleData.push(item.vehicleFlat);
         });
@@ -68,7 +65,7 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
     console.log(`filterValue: ${filterValue}`);
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
-      // this.dataSource.paginator.firstPage();
+      this.dataSource.paginator.firstPage();
     }
   }
 
