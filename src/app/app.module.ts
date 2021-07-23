@@ -18,6 +18,9 @@ import { VehicleRegistryComponent } from './vehicle-registry/vehicle-registry.co
 import { MatPaginatorModule } from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {HttpClientModule} from "@angular/common/http";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import {HttpClientModule} from "@angular/common/http";
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatFormFieldModule,
     FlexModule,
+    MatSortModule,
+    MatInputModule,
     FontAwesomeModule,
     MatTableModule,
     MatPaginatorModule,
