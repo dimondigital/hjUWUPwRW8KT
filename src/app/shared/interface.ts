@@ -32,7 +32,7 @@ export interface Employee {
   "name"?: string;
 }
 
-export interface Vehicle{
+export interface Vehicle {
   "id": string;
   "name": string;
   "organizationId"?: string;

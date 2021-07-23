@@ -14,12 +14,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MainComponent } from './main/main.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { VehicleRegistryComponent } from './vehicle-registry/vehicle-registry.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     MainComponent,
+    VehicleRegistryComponent,
   ],
   imports: [
     BrowserModule,
