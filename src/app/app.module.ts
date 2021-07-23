@@ -15,6 +15,9 @@ import { MatListModule } from '@angular/material/list';
 import { MainComponent } from './main/main.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { VehicleRegistryComponent } from './vehicle-registry/vehicle-registry.component';
+import { MatPaginatorModule } from "@angular/material/paginator";
+import {MatTableModule} from "@angular/material/table";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { VehicleRegistryComponent } from './vehicle-registry/vehicle-registry.co
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
@@ -35,6 +39,8 @@ import { VehicleRegistryComponent } from './vehicle-registry/vehicle-registry.co
     MatListModule,
     FlexModule,
     FontAwesomeModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

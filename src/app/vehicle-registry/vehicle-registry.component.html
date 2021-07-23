@@ -1,1 +1,63 @@
-<p>vehicle-registry works!</p>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Транспортний засіб -->
+    <ng-container matColumnDef="Транспортний засіб">
+      <th mat-header-cell *matHeaderCellDef> Транспортний засіб </th>
+      <td mat-cell *matCellDef="let element"> {{element.Vehicle.name}} </td>
+    </ng-container>
+
+    <!-- Організація -->
+    <ng-container matColumnDef="Організація">
+      <th mat-header-cell *matHeaderCellDef> Організація </th>
+      <td mat-cell *matCellDef="let element"> {{element.Vehicle.Organization.name}} </td>
+    </ng-container>
+
+    <!-- Департамент -->
+    <ng-container matColumnDef="Департамент">
+      <th mat-header-cell *matHeaderCellDef> Департамент </th>
+      <td mat-cell *matCellDef="let element"> {{element.Vehicle.Department.name}} </td>
+    </ng-container>
+
+    <!-- Контрагент -->
+    <ng-container matColumnDef="Контрагент">
+      <th mat-header-cell *matHeaderCellDef> Контрагент </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="element.Vehicle.Contragent?.name">
+          {{ element.Vehicle.Contragent.name }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <!-- Код -->
+    <ng-container matColumnDef="Код">
+      <th mat-header-cell *matHeaderCellDef> Код </th>
+      <td mat-cell *matCellDef="let element"> {{element.code1c}} </td>
+    </ng-container>
+
+    <!-- Причіп -->
+    <ng-container matColumnDef="Причіп">
+      <th mat-header-cell *matHeaderCellDef> Причіп </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="element.Aggregate?.name">
+          {{ element.Aggregate.name }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <!-- Водії -->
+    <ng-container matColumnDef="Водії">
+      <th mat-header-cell *matHeaderCellDef> Водії </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngFor="let driver of element.Drivers">
+          {{ driver.name }}
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>
