@@ -16,15 +16,20 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
   dataSource: MatTableDataSource<VehicleFlat>;
   // dataSource_filtered: MatTableDataSource<VehicleFlat>;
   flatVehicleData: VehicleFlat[] = [];
+  availableOrganizations: string[] = [];
 
   destroyed$: Subject<boolean> = new Subject<boolean>();
 
-  filteredValues = {
-    vehicleName: '',
-    organizationName: '',
-    departmentName: '',
-    contragentName: ''
+  filterOptions = {
+    org: ''
   };
+
+  foods: any[] = [
+    {value: 'steak-0', viewValue: 'Захаров'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'}
+  ];
+  selectedFood = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,25 +52,40 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
             drivers: item.Drivers.map(d => d.name).join(' ')
           };
           this.flatVehicleData.push(item.vehicleFlat);
+          if (!this.availableOrganizations.includes(item.vehicleFlat.org)) {
+            this.availableOrganizations.push(item.vehicleFlat.org);
+          }
         });
+        this.availableOrganizations.sort();
         this.dataSource = new MatTableDataSource<VehicleFlat>(this.flatVehicleData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {}
 
-  }
-
-
-
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    console.log(`filterValue: ${filterValue}`);
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  applyFilter(event?: Event): void {
+    // input filter
+    if (event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      console.log(`filterValue: ${filterValue}`);
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    } else {
+      // complex filter
+      const filterValue = Object.values(this.filterOptions).join(' ');
+      this.dataSource.filter = filterValue;
+      this.dataSource.filterPredicate = (data: VehicleFlat, filter: string): boolean => {
+        for (const [key, value] of Object.entries(this.filterOptions)) {
+          if (data[key] && data[key] === value) {
+            return true;
+          }
+        }
+        return false;
+      };
     }
   }
 

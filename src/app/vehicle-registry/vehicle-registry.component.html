@@ -1,8 +1,17 @@
 <div class="mat-elevation-z8">
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <mat-form-field appearance="standard" style="padding: 10px;">
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 10px;">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Організація</mat-label>
+      <mat-select [(value)]="filterOptions.org" (selectionChange)="applyFilter()">
+        <mat-option></mat-option>
+        <mat-option [value]="org" *ngFor="let org of availableOrganizations">{{ org }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" >
+      <mat-label>Пошук</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>
 
     <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
