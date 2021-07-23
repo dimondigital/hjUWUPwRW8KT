@@ -1,5 +1,16 @@
+export interface VehicleFlat {
+  vehicle: string;
+  org: string;
+  department?: string;
+  contragent?: string;
+  code1c: string;
+  aggregate?: string;
+  drivers?: Employee[];
+}
+
 export interface VehicleCode {
   "id": string;
+  "vehicleFlat": VehicleFlat;
   "shortId": string;
   "code1c": string;
   "organizationId"?: string;

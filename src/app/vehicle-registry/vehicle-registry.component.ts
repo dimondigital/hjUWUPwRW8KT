@@ -1,19 +1,23 @@
-import {AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {VehicleService} from '../vehicle.service';
-import {VehicleCode} from '../shared/interface';
+import {VehicleCode, VehicleFlat} from '../shared/interface';
 import {MatSort} from "@angular/material/sort";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-vehicle-registry',
   templateUrl: './vehicle-registry.component.html',
   styleUrls: ['./vehicle-registry.component.scss']
 })
-export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChanges {
-  displayedColumns: string[] = ['Транспортний засіб', 'Організація', 'Департамент', 'Контрагент', 'Код', 'Причіп', 'Водії'];
-  dataSource: MatTableDataSource<VehicleCode>;
-  dataSource_filtered: MatTableDataSource<VehicleCode>;
+export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  displayedColumns: string[] = ['vehicle', 'org', 'department', 'contagent', 'code1c', 'aggregate', 'drivers'];
+  dataSource: MatTableDataSource<VehicleFlat>;
+  // dataSource_filtered: MatTableDataSource<VehicleFlat>;
+  flatVehicleData: VehicleFlat[] = [];
+
+  destroyed$: Subject<boolean> = new Subject<boolean>();
 
   filteredValues = {
     vehicleName: '',
@@ -35,8 +39,19 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
   ngAfterViewInit(): void {
     this.vehicleService.getVehicles()
       .subscribe(data => {
-        this.dataSource = new MatTableDataSource<VehicleCode>(data);
-        // this.dataSource_filtered = this.dataSource;
+        data.map(item => {
+          item.vehicleFlat = {
+            vehicle: item.Vehicle.name,
+            org: item.Vehicle.Organization.name,
+            department: item.Vehicle.Department?.name,
+            contragent: item.Vehicle.Contragent?.name,
+            code1c: item.code1c,
+            aggregate: item.Aggregate?.name,
+            drivers: item.Drivers
+          };
+          this.flatVehicleData.push(item.vehicleFlat);
+        });
+        this.dataSource = new MatTableDataSource<VehicleFlat>(this.flatVehicleData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
@@ -55,6 +70,11 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
     if (this.dataSource.paginator) {
       // this.dataSource.paginator.firstPage();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
 }
