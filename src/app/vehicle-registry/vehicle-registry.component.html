@@ -25,7 +25,9 @@
       </mat-select>
     </mat-form-field>
 
+
     <mat-form-field appearance="standard" >
+      <fa-icon matPrefix style="color: black" [icon]="faSearch" style="padding: 0 0.5em;"></fa-icon>
       <mat-label>Пошук</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>

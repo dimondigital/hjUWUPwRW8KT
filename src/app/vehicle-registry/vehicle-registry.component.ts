@@ -5,6 +5,7 @@ import {VehicleService} from '../vehicle.service';
 import {VehicleCode, VehicleFlat} from '../shared/interface';
 import {MatSort} from "@angular/material/sort";
 import {Subject} from "rxjs";
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-vehicle-registry',
@@ -12,6 +13,7 @@ import {Subject} from "rxjs";
   styleUrls: ['./vehicle-registry.component.scss']
 })
 export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  faSearch = faSearch;
   displayedColumns: string[] = ['vehicle', 'org', 'department', 'contragent', 'code1c', 'aggregate', 'drivers'];
   dataSource: MatTableDataSource<VehicleFlat>;
   // dataSource_filtered: MatTableDataSource<VehicleFlat>;
@@ -52,13 +54,13 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
           };
           this.flatVehicleData.push(item.vehicleFlat);
           if (item.vehicleFlat.org && !this.availableOrganizations.includes(item.vehicleFlat.org)) {
-            this.availableOrganizations.push(item.vehicleFlat.org.trim());
+            this.availableOrganizations.push(item.vehicleFlat.org);
           }
           if (item.vehicleFlat.department && !this.availableDepartments.includes(item.vehicleFlat.department)) {
-            this.availableDepartments.push(item.vehicleFlat.department.trim());
+            this.availableDepartments.push(item.vehicleFlat.department);
           }
           if (item.vehicleFlat.contragent && !this.availableContragents.includes(item.vehicleFlat.contragent)) {
-            this.availableContragents.push(item.vehicleFlat.contragent.trim());
+            this.availableContragents.push(item.vehicleFlat.contragent);
           }
         });
         this.availableOrganizations.sort();
