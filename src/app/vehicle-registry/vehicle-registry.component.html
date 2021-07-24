@@ -1,6 +1,7 @@
 <div class="mat-elevation-z8">
   <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 10px;">
 
+    <!--filter Організація-->
     <mat-form-field appearance="fill">
       <mat-label>Організація</mat-label>
       <mat-select [(value)]="filterOptions.org" (selectionChange)="applyFilter()">
@@ -9,6 +10,7 @@
       </mat-select>
     </mat-form-field>
 
+    <!--filter Департамент-->
     <mat-form-field appearance="fill">
       <mat-label>Департамент</mat-label>
       <mat-select [(value)]="filterOptions.department" (selectionChange)="applyFilter()">
@@ -17,6 +19,7 @@
       </mat-select>
     </mat-form-field>
 
+    <!--filter Контрагент-->
     <mat-form-field appearance="fill">
       <mat-label>Контрагент</mat-label>
       <mat-select [(value)]="filterOptions.contragent" (selectionChange)="applyFilter()">
@@ -25,7 +28,7 @@
       </mat-select>
     </mat-form-field>
 
-
+    <!--filter Пошук-->
     <mat-form-field appearance="standard">
       <fa-icon matPrefix style="color: black" [icon]="faSearch" style="padding: 0 0.5em;"></fa-icon>
       <mat-label>Пошук</mat-label>
