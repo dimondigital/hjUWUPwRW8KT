@@ -5,11 +5,6 @@ import {VehicleRegistryComponent} from './vehicle-registry/vehicle-registry.comp
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: '/vehicle-registry',
-    pathMatch: 'prefix'
-  },
-  {
     path: 'main',
     component: MainComponent
   },
