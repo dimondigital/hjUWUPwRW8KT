@@ -17,19 +17,18 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
   // dataSource_filtered: MatTableDataSource<VehicleFlat>;
   flatVehicleData: VehicleFlat[] = [];
   availableOrganizations: string[] = [];
+  availableDepartments: string[] = [];
+  availableContragents: string[] = [];
 
   destroyed$: Subject<boolean> = new Subject<boolean>();
 
   filterOptions = {
-    org: ''
+    org: undefined,
+    department: undefined,
+    contragent: undefined
   };
 
-  foods: any[] = [
-    {value: 'steak-0', viewValue: 'Захаров'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'}
-  ];
-  selectedFood = '';
+  searchInput = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -52,12 +51,26 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
             drivers: item.Drivers.map(d => d.name).join(' ')
           };
           this.flatVehicleData.push(item.vehicleFlat);
-          if (!this.availableOrganizations.includes(item.vehicleFlat.org)) {
-            this.availableOrganizations.push(item.vehicleFlat.org);
+          if (item.vehicleFlat.org && !this.availableOrganizations.includes(item.vehicleFlat.org)) {
+            this.availableOrganizations.push(item.vehicleFlat.org.trim());
+          }
+          if (item.vehicleFlat.department && !this.availableDepartments.includes(item.vehicleFlat.department)) {
+            this.availableDepartments.push(item.vehicleFlat.department.trim());
+          }
+          if (item.vehicleFlat.contragent && !this.availableContragents.includes(item.vehicleFlat.contragent)) {
+            this.availableContragents.push(item.vehicleFlat.contragent.trim());
           }
         });
         this.availableOrganizations.sort();
         this.dataSource = new MatTableDataSource<VehicleFlat>(this.flatVehicleData);
+        this.dataSource.filterPredicate = (datas: VehicleFlat, filter: string): boolean => {
+          for (const [key, value] of Object.entries(this.filterOptions)) {
+              if (value !== undefined && datas[key] !== '' && datas[key] !== value) {
+                return false;
+             }
+          }
+          return true;
+        };
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
@@ -66,27 +79,21 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnChange
   ngOnChanges(changes: SimpleChanges): void {}
 
   applyFilter(event?: Event): void {
+    // let filterValues = '';
     // input filter
     if (event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      console.log(`filterValue: ${filterValue}`);
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
-    } else {
-      // complex filter
-      const filterValue = Object.values(this.filterOptions).join(' ');
-      this.dataSource.filter = filterValue;
-      this.dataSource.filterPredicate = (data: VehicleFlat, filter: string): boolean => {
-        for (const [key, value] of Object.entries(this.filterOptions)) {
-          if (data[key] && data[key] === value) {
-            return true;
-          }
-        }
-        return false;
-      };
+      // this.searchInput = (event.target as HTMLInputElement).value.trim().toLowerCase();
+      // // filterValues = filterValues.concat((event.target as HTMLInputElement).value.trim().toLowerCase());
+      // console.log(`filterValue: ${this.searchInput}`);
+      // this.dataSource.filter = this.searchInput;
+      // if (this.dataSource.paginator) {
+      //   this.dataSource.paginator.firstPage();
+      // }
     }
+      // complex filter
+    const filterValues = Object.values(this.filterOptions).join(' ').trim();
+    console.log(`_${this.filterOptions}_`);
+    this.dataSource.filter = filterValues;
   }
 
   ngOnDestroy(): void {

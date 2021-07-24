@@ -4,8 +4,24 @@
     <mat-form-field appearance="fill">
       <mat-label>Організація</mat-label>
       <mat-select [(value)]="filterOptions.org" (selectionChange)="applyFilter()">
-        <mat-option></mat-option>
+        <mat-option>--Усі--</mat-option>
         <mat-option [value]="org" *ngFor="let org of availableOrganizations">{{ org }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Департамент</mat-label>
+      <mat-select [(value)]="filterOptions.department" (selectionChange)="applyFilter()">
+        <mat-option>--Усі--</mat-option>
+        <mat-option [value]="department" *ngFor="let department of availableDepartments">{{ department }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Контрагент</mat-label>
+      <mat-select [(value)]="filterOptions.contragent" (selectionChange)="applyFilter()">
+        <mat-option>--Усі--</mat-option>
+        <mat-option [value]="contragent" *ngFor="let contragent of availableContragents">{{ contragent }}</mat-option>
       </mat-select>
     </mat-form-field>
 
