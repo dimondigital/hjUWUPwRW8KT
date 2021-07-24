@@ -69,11 +69,11 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnDestro
         this.availableDepartments.sort();
         this.availableContragents.sort();
         this.dataSource = new MatTableDataSource<VehicleFlat>(this.flatVehicleData);
-        this.dataSource.filterPredicate = (datas: VehicleFlat, filter: string): boolean => {
+        this.dataSource.filterPredicate = (vehicle: VehicleFlat): boolean => {
           // search filter
           let searchFilter: boolean;
           if (this.searchInput && this.searchInput !== '' && this.searchInput !== undefined) {
-            for (const [key, value] of Object.entries(datas)) {
+            for (const [key, value] of Object.entries(vehicle)) {
               if (value && value.includes(this.searchInput)) {
                 searchFilter = true;
               }
@@ -83,7 +83,7 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnDestro
           }
           // complex filter
           for (const [key, value] of Object.entries(this.filterOptions)) {
-            if (value !== undefined && datas[key] !== '' && datas[key] !== value) {
+            if (value !== undefined && vehicle[key] !== '' && vehicle[key] !== value) {
               return false;
             }
           }
@@ -99,7 +99,6 @@ export class VehicleRegistryComponent implements OnInit, AfterViewInit, OnDestro
       this.searchInput = (event.target as HTMLInputElement).value.trim();
     }
     this.filterString = Object.values(this.filterOptions).join(' ').concat(` ${this.searchInput}`).trim();
-    // console.log(`_${this.filterOptions}_`);
     this.dataSource.filter = this.filterString;
   }
 
